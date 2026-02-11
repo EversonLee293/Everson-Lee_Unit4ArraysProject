@@ -29,7 +29,10 @@ public class Main {
         int pair = 0;
         int highCard = 0;
 
+        int totalBidValues = 0;
+
         //below is line reader
+        int numLinesFile = 0;
         String fileData = "";
         try {
             File f = new File("src/data");
@@ -38,16 +41,24 @@ public class Main {
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 fileData += line + "\n";
+                numLinesFile++;
             }
         }
         catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
 
+        System.out.println(numLinesFile);
         //System.out.println(fileData);
         String[] lines = fileData.split("\n");
 
+        CardHand [] arrayOfObjects = new CardHand[numLinesFile];
+
+        int currentLine = 0;
+
         for (String line : lines) {
+            currentLine += 1;
+
             String[] numbers = line.split(",");
 
             String bid = numbers[4].substring(numbers[4].indexOf("|") + 1);
@@ -81,7 +92,9 @@ public class Main {
                 System.out.println("Error when retrieving object CardHand Type.");
             }
 
+            arrayOfObjects[currentLine - 1] = cardHandCurrent;
             //System.out.println(cardHandCurrent.returnType());
+
 
         }
 
@@ -92,5 +105,43 @@ public class Main {
         System.out.println("Number of Two Pair hands : " + twoPair);
         System.out.println("Number of Pair hands : " + pair);
         System.out.println("Number of High Card hands : " + highCard);
+        System.out.println("-----------------------");
+
+        for (int a = 0; a < arrayOfObjects.length; a++){
+            //arrayOfObjects[a].setRank(1);
+            for (int c = 0 ; c < arrayOfObjects.length; c++) {
+                    if (!(c==a)) {
+                        if (arrayOfObjects[a].isHigherThan(arrayOfObjects[c])) {
+                            arrayOfObjects[a].setRank(arrayOfObjects[a].returnRank() + 1);
+                        }
+                    }
+                }
+        }
+//        for (int i = 0; i < numLinesFile; i++) {
+//            int rank = 1;
+//
+//            for (int j = 0; j < numLinesFile; j++) {
+//                if (arrayOfObjects[i].isHigherThan(arrayOfObjects[j])) {
+//                    rank++;
+//                }
+//            }
+//            arrayOfObjects[i].setRank(rank);
+//        }
+
+        for(int i = 0; i < arrayOfObjects.length; i++) {
+            totalBidValues += arrayOfObjects[i].returnBid() * arrayOfObjects[i].returnRank();
+            System.out.print(arrayOfObjects[i].returnBid());
+            String toPrint = "";
+//            for (int g = 0; g < arrayOfObjects[g].getListOfCards().length; g++) {
+//                toPrint = toPrint + arrayOfObjects[g].getListOfCards() + " ";
+//            }
+            System.out.print(toPrint);
+            System.out.print(" : Rank ");
+            System.out.println(arrayOfObjects[i].returnRank());
+        }
+
+        System.out.println("----------------");
+        System.out.println(totalBidValues);
+
     }
 }

@@ -1,11 +1,15 @@
 public class CardHand {
 
-    private int [] listOfCards;
+    private int [] listOfCards = new int[5];
     private String handType;
     private int bid;
+    private int rank = 1;
+    private int handValue = 0;
 
     public CardHand(int [] cardList, int bidInput) {
-        this.listOfCards = cardList;
+        for (int i = 0; i < 5; i++) {
+            this.listOfCards[i] = cardList[i];
+        }
         this.handType = getHandType(cardList);
         this.bid = bidInput;
     }
@@ -15,7 +19,7 @@ public class CardHand {
         int [] numHandList = new int[5];
 
         for (int i = 0; i < originalHandList.length; i++) {
-            if (originalHandList[i].length() > 1) {
+            if (originalHandList[i].length() > 1 && (!(originalHandList[i].equalsIgnoreCase("10"))) ) {
                 if (originalHandList[i].equalsIgnoreCase("Ace")){
                     numHandList[i] = 14;
                 } else if (originalHandList[i].equalsIgnoreCase("King")) {
@@ -73,20 +77,46 @@ public class CardHand {
 
         if (greatestNumber == 5) {
             type = "Five of a Kind";
+            this.handValue = 6;
         } else if (greatestNumber == 4) {
             type = "Four of a Kind";
+            this.handValue = 5;
         } else if (greatestNumber == 3 && dupeCount > 1) {
             type = "Full House";
+            this.handValue = 4;
         } else if (greatestNumber == 3) {
             type = "Three of a Kind";
+            this.handValue = 3;
         } else if (greatestNumber == 2 && dupeCount > 2) {
             type = "Two Pair";
+            this.handValue = 2;
         } else if (greatestNumber == 2) {
             type = "Pair";
+            this.handValue = 1;
         }
 
         return type;
     }
+
+    public boolean isHigherThan(CardHand other) {
+        if (this.returnWeight() != other.returnWeight()) {
+            return this.returnWeight() > other.returnWeight();
+        }
+
+        for (int i = 0; i < 5; i++) {
+            int a = listOfCards[i];
+            int b = other.listOfCards[i];
+
+            if (a != b) {
+                return a > b;
+            }
+        }
+
+        return false;
+    }
+
+
+    public int returnWeight() {return this.handValue;}
 
     public String returnType() {
         return this.handType;
@@ -94,5 +124,17 @@ public class CardHand {
 
     public int returnBid() {
         return this.bid;
+    }
+
+    public void setRank(int rank){
+        this.rank = rank;
+    }
+
+    public int returnRank() {
+        return this.rank;
+    }
+
+    public int [] getListOfCards(){
+        return this.listOfCards;
     }
 }
