@@ -65,12 +65,10 @@ public class Main {
 
             numbers[4] = numbers[4].substring(0, numbers[4].indexOf("|"));
 
-            //testing for printing out obj data
-//            System.out.println(bid);
-//            System.out.println(Arrays.toString(numbers));
 
             int[] cardIntList = CardHand.convertHandToNumList(numbers);
             int bidToInt = Integer.parseInt(bid);
+
 
             CardHand cardHandCurrent = new CardHand(cardIntList, bidToInt);
 
@@ -95,7 +93,6 @@ public class Main {
             arrayOfObjects[currentLine - 1] = cardHandCurrent;
             //System.out.println(cardHandCurrent.returnType());
 
-
         }
 
         System.out.println("Number of Five Of A Kind hands : " + fiveOfAKind);
@@ -106,6 +103,8 @@ public class Main {
         System.out.println("Number of Pair hands : " + pair);
         System.out.println("Number of High Card hands : " + highCard);
         System.out.println("-----------------------");
+
+
 
         for (int a = 0; a < arrayOfObjects.length; a++){
             //arrayOfObjects[a].setRank(1);
@@ -130,18 +129,19 @@ public class Main {
 
         for(int i = 0; i < arrayOfObjects.length; i++) {
             totalBidValues += arrayOfObjects[i].returnBid() * arrayOfObjects[i].returnRank();
+            System.out.print("Bid : ");
             System.out.print(arrayOfObjects[i].returnBid());
             String toPrint = "";
 //            for (int g = 0; g < arrayOfObjects[g].getListOfCards().length; g++) {
 //                toPrint = toPrint + arrayOfObjects[g].getListOfCards() + " ";
 //            }
             System.out.print(toPrint);
-            System.out.print(" : Rank ");
+            System.out.print(", Rank ");
             System.out.println(arrayOfObjects[i].returnRank());
         }
 
         System.out.println("----------------");
-        System.out.println(totalBidValues);
+        System.out.println("Total Bid (part 2) : " + totalBidValues);
 
     }
 }
